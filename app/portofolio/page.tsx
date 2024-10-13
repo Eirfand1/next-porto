@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useRef } from 'react';
+import { ThemeProvider, useTheme } from '@/components/navbar';
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
 import Image from 'next/image';
@@ -11,9 +12,9 @@ interface PortfolioItem {
   description: string;
 }
 
-const PortfolioPage: React.FC = () => {
+const PortfolioContent: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<PortfolioItem | null>(null);
-  const [theme, setTheme] = useState<boolean>(false) 
+  const { theme } = useTheme();
   const modalRef = useRef<HTMLDialogElement>(null);
 
   const portfolioItems: PortfolioItem[] = [
@@ -46,7 +47,7 @@ const PortfolioPage: React.FC = () => {
 
   return (
     <div className={theme ? "bg-steel" : ""} data-theme={theme ? "light" : "dark"}>
-      <Navbar setTheme={() => setTheme(!theme)} />
+      <Navbar />
       <main className="flex flex-col p-8 items-center min-h-screen">
         <div className="text-center mb-8">
           <h1 className='font-bold text-3xl mb-2'>Portfolio</h1>
@@ -55,30 +56,35 @@ const PortfolioPage: React.FC = () => {
         <div className='flex flex-wrap justify-center gap-4'>
           {portfolioItems.map((item, index) => (
             <div key={index} className="card w-72 sm:w-96 bg-base-100 cursor-pointer" onClick={() => openModal(item)}>
-             <Image src={item.img} alt={`Project ${index + 1}`} className='w-full rounded-sm h-48 object-cover' />
+              <Image src={item.img} alt={`Project ${index + 1}`} width={0} height={0} sizes='100vw' className='w-full rounded-sm h-48 object-cover' />
             </div>
           ))}
         </div>
       </main>
       <Footer />
-
-      <dialog ref={modalRef} className="modal ">
-        {
-         selectedItem && (
-            <div className="modal-box rounded-sm">
-               <h3 className="font-bold text-lg">{selectedItem.title}</h3>
-               <Image src={selectedItem.img} alt={selectedItem.title} className="w-full h-64 object-cover my-4" />
-               <p className="py-4">{selectedItem.description}</p>
-               <div className="modal-action">
-               <form method="dialog">
-                  <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={closeModal}>✕</button>
-               </form>
-               </div>
+      <dialog ref={modalRef} className="modal">
+        {selectedItem && (
+          <div className="modal-box rounded-sm">
+            <h3 className="font-bold text-lg">{selectedItem.title}</h3>
+            <Image src={selectedItem.img} alt={selectedItem.title} width={0} height={0} sizes='100vw' className="w-full h-64 object-cover my-4" />
+            <p className="py-4">{selectedItem.description}</p>
+            <div className="modal-action">
+              <form method="dialog">
+                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={closeModal}>✕</button>
+              </form>
             </div>
-         )
-        }
+          </div>
+        )}
       </dialog>
     </div>
+  );
+};
+
+const PortfolioPage: React.FC = () => {
+  return (
+    <ThemeProvider>
+      <PortfolioContent />
+    </ThemeProvider>
   );
 };
 

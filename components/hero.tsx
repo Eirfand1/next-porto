@@ -1,17 +1,34 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import Image from 'next/image'
 
 interface SocialLink  {
    name: string
    url: string
+   logo : ReactElement 
 }
 
-const hero = () => {
+const hero: React.FC = () => {
    const links: SocialLink[] = [
-      { name: 'Github', url: 'https://github.com/Eirfand1' },
-      { name: 'Facebook', url: '#' },
-      { name: 'Instagram', url: '#' },
-      { name: 'LinkedIn', url: '#' }
+      {
+         name: 'Github',
+         url: 'https://github.com/Eirfand1', 
+         logo : <i className="fa-brands fa-github"></i>
+      },
+      {
+         name: 'Facebook',
+         url: '#', 
+         logo : <i className="fa-brands fa-facebook"></i> 
+      },
+      {
+         name: 'Instagram',
+         url: '#',
+         logo : <i className="fa-brands fa-instagram"></i> 
+      },
+      {
+         name: 'LinkedIn', 
+         url: '#', 
+         logo: <i className="fa-brands fa-linkedin"></i> 
+      }
    ];
 
    const logoList: string[] = [
@@ -23,13 +40,13 @@ const hero = () => {
       "/tor-512.webp",
       "/Tux.png",
       "/vimlogo.svg",
-      "json.svg",
-      "gayming.png"
+      "/json.svg",
+      "/gayming.png"
    ]
 
   return (
     <div className='max-w-xl transition-all'>
-      <div className='grid gap-3 font-semibold'>
+      <div className='grid gap-3'>
          <h1><span className='text-3xl font-bold'>Ego Irfandi</span> <span className='text-xs'>call me Yuki</span></h1>
          <p>
             Hi, i&#39;m Ego Irfandi
@@ -47,12 +64,12 @@ const hero = () => {
          <div className='flex flex-wrap gap-3'>
             {
                logoList.map((logo,index)=> (
-                  <Image src={logo} key={index} alt="" className='w-auto h-9' />
+                  <Image src={logo} key={index} alt="" className='w-auto h-9' width={0} sizes='100vw' height={0} />
                ))
             }
          </div>
          <div>
-            <p>Find me on</p>
+            <p className='font-semibold'>Find me on</p>
             <div className='flex items-start flex-wrap justify-start gap-2 mt-2'>
               {
                links.map((link, index) => (
@@ -63,6 +80,8 @@ const hero = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                      >
+
+                        {link.logo}
                         {link.name}
                      </a>
                   ))
