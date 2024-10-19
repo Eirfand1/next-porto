@@ -1,11 +1,10 @@
 'use client';
 
-import Navbar from '@/components/navbar';
-import Footer from '@/components/footer';
-import { ThemeProvider, useTheme } from '@/components/navbar';
-import { useEffect, useState } from 'react';
+import {  useTheme } from '@/components/navbar';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import { containerAnimation, itemAnimation, wordAnimation } from '@/utils/animation';
 
 interface Post {
   id: number;
@@ -13,12 +12,16 @@ interface Post {
   body: string;
 }
 
-const BlogContent = () => {
+const BlogContent: React.FC = () => {
   const { theme } = useTheme();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postsPerPage] = useState<number>(10);
+
+  const pageNumberLimit: number = 3; 
+  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState<number>(pageNumberLimit);
+  const [minPageNumberLimit, setMinPageNumberLimit] = useState<number>(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,7 +30,7 @@ const BlogContent = () => {
         setPosts(res.data);
       } catch (err) {
         console.error(err);
-      } finally{
+      } finally {
         setLoading(false);
       }
     };
@@ -37,15 +40,37 @@ const BlogContent = () => {
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+  
+  const totalPages = Math.ceil(posts.length / postsPerPage);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
+  const handleNextPage = () => {
+    setCurrentPage((prev) => prev + 1);
+
+    if (currentPage + 1 > maxPageNumberLimit) {
+      setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
+      setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+    }
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => prev - 1);
+
+    if ((currentPage - 1) % pageNumberLimit === 0) {
+      setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
+      setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+    }
+  };
+
   return (
-    <div data-theme={theme ? 'garden' : 'dim'}>
-      <Navbar />
+    <motion.div
+     variants={containerAnimation}
+     initial="initial"
+     animate="animate">
       <main className={`flex flex-col items-center min-h-screen p-8 ${theme ? 'text-gray-700' : 'text-gray-300'}`}>
         <div className="mb-8">
-          <h1 className="text-4xl font-semibold">Blog Posts</h1>
+          <motion.h1 className="text-4xl font-semibold" variants={wordAnimation}>Blog Posts</motion.h1>
         </div>
         <div className="w-full max-w-4xl">
           {loading ? (
@@ -62,26 +87,50 @@ const BlogContent = () => {
                 {currentPosts.map((post) => (
                   <motion.div
                     key={post.id}
+                    variants={itemAnimation}
                     whileHover={{ scale: 1.02 }}
-                    className={`card p-4 rounded-sm border-dotted border ${theme ? "border-gray-900" : "border-gray-100"} transition-all duration-300`}
+                    className={`card p-4 rounded-sm border-dotted border ${theme ? "border-gray-900" : "border-gray-100"} `}
                   >
                     <h2 className="text-xl font-serif mb-2">{post.title}</h2>
                     <p>{post.body}</p>
                   </motion.div>
                 ))}
               </div>
-              <div className="flex justify-center mt-8">
-                {Array.from({ length: Math.ceil(posts.length / postsPerPage) }, (_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => paginate(i + 1)}
-                    className={`mx-1 px-3 py-1 rounded ${
-                      currentPage === i + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
-                    }`}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
+              <div className="flex flex-wrap justify-center join mt-8">
+                <button
+                  onClick={handlePrevPage}
+                  className={`btn btn-sm rounded-none font-normal ${
+                    currentPage === 1 ? 'disabled' : ''
+                  }`}
+                  disabled={currentPage === 1}
+                >
+                  Prev
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                  if (page < maxPageNumberLimit + 1 && page > minPageNumberLimit) {
+                    return (
+                      <button
+                        key={page}
+                        onClick={() => paginate(page)}
+                        className={`join-item btn btn-sm rounded-none font-normal ${
+                          currentPage === page ? 'btn-active font-semibold' : ''
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    );
+                  }
+                  return null;
+                })}
+                <button
+                  onClick={handleNextPage}
+                  className={`btn btn-sm rounded-none font-normal ${
+                    currentPage === totalPages ? 'disabled' : ''
+                  }`}
+                  disabled={currentPage === totalPages}
+                >
+                  Next
+                </button>
               </div>
             </>
           ) : (
@@ -91,17 +140,9 @@ const BlogContent = () => {
           )}
         </div>
       </main>
-      <Footer />
-    </div>
+    </motion.div>
   );
 };
 
-const BlogPage: React.FC = () => {
-  return (
-    <ThemeProvider>
-      <BlogContent />
-    </ThemeProvider>
-  );
-};
 
-export default BlogPage;
+export default BlogContent;

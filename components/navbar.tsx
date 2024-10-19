@@ -47,7 +47,7 @@ const Navbar: React.FC = () => {
   const { theme, toggleTheme } = useTheme()
 
   return (
-    <div className='flex justify-between p-1'>
+    <nav className='flex justify-between p-1'>
       <h1>
         <Link href="/" className='btn text-xl font-bold btn-ghost'>N.<span className='text-[#8B7484]'>Yuki</span></Link>
       </h1>
@@ -76,7 +76,7 @@ const Navbar: React.FC = () => {
           </label>
         </li>
       </ul>
-    </div>
+    </nav>
   )
 }
 

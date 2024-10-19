@@ -1,7 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { ThemeProvider, useTheme } from '@/components/navbar';
-import Navbar from '@/components/navbar';
+import {  useTheme } from '@/components/navbar';
 import Footer from '@/components/footer';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -16,12 +15,10 @@ const PortfolioContent: React.FC = () => {
 
   return (
       <motion.div
-         data-theme={theme ? "garden" : "dim"}
          variants={containerAnimation}
          initial="initial"
          animate="animate"
          >
-         <Navbar />
          <main className="flex flex-col p-8 items-center min-h-screen">
          <div className="text-center mb-8">
             <motion.h1
@@ -90,12 +87,4 @@ const PortfolioContent: React.FC = () => {
   );
 };
 
-const PortfolioPage: React.FC = () => {
-   return (
-      <ThemeProvider>
-         <PortfolioContent />
-      </ThemeProvider>
-   );
-};
-
-export default PortfolioPage;
+export default PortfolioContent
