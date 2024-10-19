@@ -13,9 +13,9 @@ const Hero: React.FC = () => {
       >
          <div className='grid gap-3'>
             <motion.h1 variants={wordAnimation}>
-               <span className='text-3xl font-bold'>Ego Irfandi</span> <span className='text-xs'>call me Yuki</span>
+               <span className='text-3xl font-serif'>Ego Irfandi</span> <span className='text-xs'>call me <span className='underline'>Yuki</span></span>
             </motion.h1>
-            <div className='text-lg grid gap-3'>
+            <div className='text-lg sm:text-normal grid gap-3'>
                <motion.p variants={wordAnimation}>
                   Hi, i&#39;m Ego Irfandi
                   <br />
@@ -43,7 +43,7 @@ const Hero: React.FC = () => {
                      <a
                         key={index}
                         href={link.url}
-                        className="btn rounded-sm font-normal btn-sm items-center hover:opacity-100 hover:bg-[#8882] opacity-90"
+                        className="btn rounded-sm font-normal border-none btn-sm items-center hover:opacity-100 hover:bg-[#8882] opacity-90"
                         target="_blank"
                         rel="noopener noreferrer"
                      >

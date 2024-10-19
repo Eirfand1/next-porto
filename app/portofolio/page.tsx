@@ -16,8 +16,7 @@ const PortfolioContent: React.FC = () => {
 
   return (
       <motion.div
-         className={theme ? "bg-steel" : ""}
-         data-theme={theme ? "light" : "dark"}
+         data-theme={theme ? "garden" : "dim"}
          variants={containerAnimation}
          initial="initial"
          animate="animate"
@@ -70,7 +69,7 @@ const PortfolioContent: React.FC = () => {
                onClick={() => setSelectedId(null)}
             >
                <motion.div 
-               className="bg-steel text-gray-900 relative p-6 m-4 rounded-sm max-w-lg w-full"
+               className={`${theme? 'bg-gray-200' : 'bg-gray-800'} bg-opacity-50 backdrop-blur relative p-6 m-4 rounded-sm max-w-lg w-full`}
                onClick={(e) => e.stopPropagation()}
                >
                <motion.button 

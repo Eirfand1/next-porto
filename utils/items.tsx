@@ -42,17 +42,17 @@ export const linkItems: SocialLink[] = [
    },
    {
       name: 'Facebook',
-      url: '#',
+      url: 'https://web.facebook.com/profile.php?id=100022535239857',
       logo : <i className="fa-brands fa-facebook"></i>
    },
    {
       name: 'Instagram',
-      url: '#',
+      url: 'https://www.instagram.com/wicis_literally/',
       logo : <i className="fa-brands fa-instagram"></i>
    },
    {
       name: 'LinkedIn',
-      url: '#',
+      url: 'https://www.linkedin.com/in/ego-irfandi-894580272',
       logo: <i className="fa-brands fa-linkedin"></i>
    }
 ];
@@ -61,11 +61,11 @@ export const logoItems: string[] = [
    "/JavaScript-logo.png",
    "/kinglara.png",
    "/nerd.png",
-   "/tailwind.png",
+   "/ekorAngin.svg",
    "/React.webp",
    "/tor-512.webp",
    "/Tux.png",
    "/vimlogo.svg",
-   "/json.svg",
-   "/gayming.png"
+   "/json.png",
+   "/console.png"
 ]

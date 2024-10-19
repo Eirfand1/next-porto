@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Ubuntu } from 'next/font/google'
+import { Poppins } from 'next/font/google'
  
-const ubuntu = Ubuntu({
-  weight: '400',
+const poppins = Poppins({
+  weight: '300',
   subsets: ['latin'],
 })
 
@@ -23,7 +23,7 @@ export default function RootLayout({
         <script src="https://kit.fontawesome.com/ac8548371f.js" crossOrigin="anonymous" async></script>
       </head>
       <body
-        className={`${ubuntu.className}  antialiased`}
+        className={`${poppins.className}`}
       >
         {children}
       </body>

@@ -10,7 +10,7 @@ const HomeContent: React.FC = () => {
   const { theme } = useTheme();
 
    return (
-      <div data-theme={theme ? "light" : "dark"} className={theme ? "bg-steel" : ""}>
+      <div data-theme={theme ? "garden" : "dim"}>
          <Navbar />
          <main className={`flex flex-col ${theme ? "text-gray-700" : ""} p-8 items-center min-h-screen`}>
             <Hero />
