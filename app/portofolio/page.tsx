@@ -1,91 +1,102 @@
 'use client'
-
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { ThemeProvider, useTheme } from '@/components/navbar';
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
 import Image from 'next/image';
-
-interface PortfolioItem {
-  img: string;
-  title: string;
-  description: string;
-}
+import { motion, AnimatePresence } from 'framer-motion';
+import { wordAnimation, containerAnimation, itemAnimation } from '@/utils/animation';
+import { portfolioItems } from '@/utils/items';
 
 const PortfolioContent: React.FC = () => {
-  const [selectedItem, setSelectedItem] = useState<PortfolioItem | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const { theme } = useTheme();
-  const modalRef = useRef<HTMLDialogElement>(null);
 
-  const portfolioItems: PortfolioItem[] = [
-    {
-      img: "/pokemon.png",
-      title: "Pokemon Information App",
-      description: "A comprehensive React application that provides detailed information about various Pokemon. It utilizes the PokeAPI to fetch and display data such as Pokemon stats, abilities, and evolution chains."
-    },
-    {
-      img: "/cahkerjo.png",
-      title: "Job Vacancy Website",
-      description: "A dynamic job board built with React JS. It allows users to search and filter job listings, view detailed job descriptions, and apply directly through the platform. The site also includes features for employers to post new job openings."
-    },
-    {
-      img: "/bookshelf.png",
-      title: "Bookshelf App",
-      description: "A vanilla JavaScript application for managing a personal book collection. Users can add books, mark them as read or unread, and organize them into different categories. The app uses local storage to persist data between sessions."
-    },
-  ];
-
-  const openModal = (item: PortfolioItem) => {
-    setSelectedItem(item);
-    modalRef.current?.showModal();
-  };
-
-  const closeModal = () => {
-    modalRef.current?.close();
-    setSelectedItem(null);
-  };
+  const selectedItem = portfolioItems.find(item => item.id === selectedId);
 
   return (
-    <div className={theme ? "bg-steel" : ""} data-theme={theme ? "light" : "dark"}>
-      <Navbar />
-      <main className="flex flex-col p-8 items-center min-h-screen">
-        <div className="text-center mb-8">
-          <h1 className='font-bold text-3xl mb-2'>Portfolio</h1>
-          <p className='font-semibold text-normal'>My Learning Progress</p>
-        </div>
-        <div className='flex flex-wrap justify-center gap-4'>
-          {portfolioItems.map((item, index) => (
-            <div key={index} className="card w-72 sm:w-96 bg-base-100 cursor-pointer" onClick={() => openModal(item)}>
-              <Image src={item.img} alt={`Project ${index + 1}`} width={0} height={0} sizes='100vw' className='w-full rounded-sm h-48 object-cover' />
-            </div>
-          ))}
-        </div>
-      </main>
-      <Footer />
-      <dialog ref={modalRef} className="modal">
-        {selectedItem && (
-          <div className="modal-box rounded-sm">
-            <h3 className="font-bold text-lg">{selectedItem.title}</h3>
-            <Image src={selectedItem.img} alt={selectedItem.title} width={0} height={0} sizes='100vw' className="w-full h-64 object-cover my-4" />
-            <p className="py-4">{selectedItem.description}</p>
-            <div className="modal-action">
-              <form method="dialog">
-                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={closeModal}>✕</button>
-              </form>
-            </div>
-          </div>
-        )}
-      </dialog>
-    </div>
+      <motion.div
+         className={theme ? "bg-steel" : ""}
+         data-theme={theme ? "light" : "dark"}
+         variants={containerAnimation}
+         initial="initial"
+         animate="animate"
+         >
+         <Navbar />
+         <main className="flex flex-col p-8 items-center min-h-screen">
+         <div className="text-center mb-8">
+            <motion.h1
+            className='font-bold text-3xl mb-2'
+            variants={wordAnimation}
+            initial="initial"
+            animate="animate">
+               Portfolio
+            </motion.h1>
+            <motion.p 
+            className='text-normal'
+            variants={wordAnimation}
+            initial="initial"
+            animate="animate">
+               My Learning Progress
+            </motion.p>
+         </div>
+         <motion.div
+            className='flex flex-wrap justify-center gap-4'
+            variants={containerAnimation}
+            initial="initial"
+            animate="animate">
+            {portfolioItems.map((item) => (
+               <motion.div
+               key={item.id}
+               layoutId={item.id}
+               onClick={() => setSelectedId(item.id)}
+               className="card w-72 sm:w-96 bg-base-100 rounded-sm cursor-pointer"
+               variants={itemAnimation}
+               initial="initial"
+               animate="animate"
+               >
+               <Image src={item.img} alt={item.title} width={0} height={0} sizes='100vw' className='w-full rounded-sm h-48 object-cover' />
+               </motion.div>
+            ))}
+         </motion.div>
+         </main>
+         <Footer />
+         
+         <AnimatePresence>
+         {selectedId && selectedItem && (
+            <motion.div 
+               layoutId={selectedId}
+               className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50"
+               onClick={() => setSelectedId(null)}
+            >
+               <motion.div 
+               className="bg-steel text-gray-900 relative p-6 m-4 rounded-sm max-w-lg w-full"
+               onClick={(e) => e.stopPropagation()}
+               >
+               <motion.button 
+                  className="btn btn-sm absolute top-4 right-4 btn-circle btn-ghost" 
+                  onClick={() => setSelectedId(null)}
+               >
+                  ✕
+               </motion.button>
+               <motion.h2 className="font-bold text-lg">{selectedItem.title}</motion.h2>
+               <Image src={selectedItem.img} alt={selectedItem.title} width={0} height={0} sizes='100vw' className="w-full h-64 object-cover my-4" />
+               <motion.p className="py-4">{selectedItem.description}</motion.p>
+               
+               </motion.div>
+            </motion.div>
+         )}
+         </AnimatePresence>
+      </motion.div>
   );
 };
 
 const PortfolioPage: React.FC = () => {
-  return (
-    <ThemeProvider>
-      <PortfolioContent />
-    </ThemeProvider>
-  );
+   return (
+      <ThemeProvider>
+         <PortfolioContent />
+      </ThemeProvider>
+   );
 };
 
 export default PortfolioPage;

@@ -14,7 +14,8 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
    const [theme, setTheme] = useState<boolean>(() => {
       if (typeof window !== 'undefined') {
          const savedTheme = localStorage.getItem('theme')
-         return savedTheme ? JSON.parse(savedTheme) : false
+         return savedTheme ? JSON.parse(savedTheme) : true 
+
       }
       return false
   })
@@ -48,18 +49,18 @@ const Navbar: React.FC = () => {
   return (
     <div className='flex justify-between p-1'>
       <h1>
-        <Link href="/" className='btn text-xl font-bold btn-ghost'>Yuki</Link>
+        <Link href="/" className='btn text-xl font-bold btn-ghost'>N.<span className='text-[#8B7484]'>Yuki</span></Link>
       </h1>
-      <ul className='flex font-semibold'>
+      <ul className='flex'>
         <li>
-          <Link href="/blog" className='btn btn-ghost px-2'>Blog</Link>
+          <Link href="/blog" className='btn font-normal btn-ghost px-2'>Blog</Link>
         </li>
         <li>
-          <Link href="/portofolio" className='btn btn-ghost px-2'>Portofolio</Link>
+          <Link href="/portofolio" className='btn font-normal  btn-ghost px-2'>Portofolio</Link>
         </li>
         <li>
           <label className="swap swap-rotate btn btn-ghost">
-            <input type="checkbox" onChange={toggleTheme} defaultChecked={theme} />
+            <input type="checkbox" onChange={toggleTheme} defaultChecked={!theme} />
             <svg
               className="swap-on h-6 w-6 fill-current"
               xmlns="http://www.w3.org/2000/svg"
