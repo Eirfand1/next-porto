@@ -31,7 +31,7 @@ const Hero: React.FC = () => {
                </motion.p>
                <motion.div className='flex flex-wrap gap-3' variants={wordAnimation}>
                   {logoItems.map((logo, index) => (
-                     <Image src={logo} key={index} alt="" className='w-auto h-9' width={0} sizes='100vw' height={0} />
+                     <Image src={logo} key={index} alt="" className='w-auto h-7' width={0} sizes='100vw' height={0} />
                   ))}
                </motion.div>
             </div>

@@ -1,7 +1,6 @@
 'use client'
 import React, { useState } from 'react';
 import {  useTheme } from '@/components/navbar';
-import Footer from '@/components/footer';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { wordAnimation, containerAnimation, itemAnimation } from '@/utils/animation';
@@ -56,17 +55,16 @@ const PortfolioContent: React.FC = () => {
             ))}
          </motion.div>
          </main>
-         <Footer />
          
          <AnimatePresence>
          {selectedId && selectedItem && (
             <motion.div 
                layoutId={selectedId}
-               className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50"
+               className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center z-50"
                onClick={() => setSelectedId(null)}
             >
                <motion.div 
-               className={`${theme? 'bg-gray-200' : 'bg-gray-800'} bg-opacity-50 backdrop-blur relative p-6 m-4 rounded-sm max-w-lg w-full`}
+               className={`${theme? 'bg-gray-200' : 'bg-gray-800'}  relative p-6 m-4 rounded-sm max-w-lg w-full`}
                onClick={(e) => e.stopPropagation()}
                >
                <motion.button 

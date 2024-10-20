@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Poppins } from 'next/font/google';
-import Navbar, { ThemeProvider } from "@/components/navbar";
+import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import ThemeLayout from "@/components/themelayout";
+import ClientThemeProvider from "@/components/themelayout";
 
 const poppins = Poppins({
   weight: '300',
@@ -23,16 +23,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script src="https://kit.fontawesome.com/ac8548371f.js" crossOrigin="anonymous" async></script>
       </head>
       <body className={poppins.className}>
-        <ThemeProvider>
-          <ThemeLayout>
+        <ClientThemeProvider>
             <Navbar />
               {children}
             <Footer />
-          </ThemeLayout>
-        </ThemeProvider>
+        </ClientThemeProvider>
       </body>
     </html>
   );

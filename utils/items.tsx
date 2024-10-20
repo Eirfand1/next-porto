@@ -1,4 +1,6 @@
 import { ReactElement } from "react";
+import { SlSocialFacebook} from "react-icons/sl"
+import { PiGithubLogo, PiLinkedinLogoLight, PiInstagramLogoLight } from "react-icons/pi";
 
 interface PortfolioItem {
    id: string;
@@ -38,22 +40,22 @@ export const linkItems: SocialLink[] = [
    {
       name: 'Github',
       url: 'https://github.com/Eirfand1',
-      logo : <i className="fa-brands fa-github"></i>
+      logo : <PiGithubLogo /> 
    },
    {
       name: 'Facebook',
       url: 'https://web.facebook.com/profile.php?id=100022535239857',
-      logo : <i className="fa-brands fa-facebook"></i>
+      logo : <SlSocialFacebook /> 
    },
    {
       name: 'Instagram',
       url: 'https://www.instagram.com/wicis_literally/',
-      logo : <i className="fa-brands fa-instagram"></i>
+      logo : <PiInstagramLogoLight /> 
    },
    {
       name: 'LinkedIn',
       url: 'https://www.linkedin.com/in/ego-irfandi-894580272',
-      logo: <i className="fa-brands fa-linkedin"></i>
+      logo: <PiLinkedinLogoLight /> 
    }
 ];
 

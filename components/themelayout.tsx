@@ -1,13 +1,23 @@
 'use client'
 
 import React from 'react';
-import { useTheme } from "@/components/navbar";
+import { ThemeProvider, useTheme } from "@/components/navbar";
 
-export default function ThemeLayout({ children }: { children: React.ReactNode }) {
+function ThemeLayout({ children }: { children: React.ReactNode }) {
   const { theme } = useTheme();
   return (
-    <div data-theme={theme ? 'garden' : 'dim'}>
+    <div data-theme={theme ? 'garden' : 'night'}>
       {children}
     </div>
+  );
+}
+
+export default function ClientThemeProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <ThemeProvider>
+      <ThemeLayout>
+        {children}
+      </ThemeLayout>
+    </ThemeProvider>
   );
 }
